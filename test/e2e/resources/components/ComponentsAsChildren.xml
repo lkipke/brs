@@ -23,6 +23,7 @@
             <ArrayGrid id="arraygrid" 
                 wrapDividerWidth="1.23"
                 numRows="5" />
+            <MarkupGrid id="markupgrid" />
         </Group>
     </children>
 </component>
