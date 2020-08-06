@@ -190,15 +190,15 @@ export const ListDir = new Callable("ListDir", {
         args: [new StdlibArgument("path", ValueKind.String)],
         returns: ValueKind.Object,
     },
-    impl: (interpreter: Interpreter, path: BrsString) => {
-        const volume = getVolumeByPath(interpreter, path.value);
+    impl: (interpreter: Interpreter, pathArg: BrsString) => {
+        const volume = getVolumeByPath(interpreter, pathArg.value);
         if (volume === null) {
             return new RoArray([]);
         }
 
-        const memfsPath = getPath(path.value);
+        let localPath = path.join(interpreter.options.root, getPath(pathArg.value));
         try {
-            let subPaths = volume.readdirSync(memfsPath).map((s) => new BrsString(s));
+            let subPaths = volume.readdirSync(localPath).map((s) => new BrsString(s));
             return new RoArray(subPaths);
         } catch (err) {
             return new RoArray([]);
